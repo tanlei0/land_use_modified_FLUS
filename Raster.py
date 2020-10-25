@@ -43,7 +43,8 @@ class Raster():
                 self.band.append(self.dataset.GetRasterBand(i+1))
                 self.NoDataValue.append(self.band[i].GetNoDataValue())
                 self.data.append(self.band[i].ReadAsArray())
-        
+            
+            
         
         
     def write(self, path):
@@ -78,12 +79,27 @@ class Raster():
         del dataset
         
     def draw(self):
-        plt.imshow(self.data, cmap = "gray", vmin = self.vmin, vmax = self.vmax)
+        # todo 改好
+        if self.bandsCount > 1:
+            data = np.array(self.data[:3]).reshape()
+            plt.imshow(, cmap = "rgb")
+        else:
+            plt.imshow(self.data, cmap = "gray")
         plt.show()
         
-    def close(self):
+    def __del__(self):
         del self.dataset
     
-        
-        
+
+    @staticmethod
+    def Create(filename, cols,rows, bands, bands_data, NoDataValue,trans,proj ,driver = gdal.GetDriverByName("GTiff")):
+        # todo 导入flus后NODATAVALUE显示黑色问题。
+        datatype = gdal.GDT_Float32
+        dataset = driver.Create(filename, cols, rows, bands, datatype)
+        dataset.SetGeoTransform(trans)
+        dataset.SetProjection(proj)
+        for i in range(bands):
+            band = dataset.GetRasterBand(i+1)
+            dataset.GetRasterBand(i+1).WriteArray(bands_data[i])
+            band.SetNoDataValue(NoDataValue)
         

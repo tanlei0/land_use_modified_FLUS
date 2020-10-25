@@ -46,7 +46,7 @@ for i in range(y_raster.vmin, y_raster.vmax + 1):
     
 # In[1] Sampling
 mode = "u"
-rate = 20
+rate = 2
 n_sample = int(y.shape[0] * y.shape[1] * rate / 100)
 if mode is "r":
     temp = np.array(list(distrib_dict.values()))
@@ -107,24 +107,34 @@ model.compile(optimizer="Adam",
               loss='categorical_crossentropy',
               metrics=["accuracy"])
 
-model.fit(X_train_norm, y_train, epochs=15, batch_size=16) 
+model.fit(X_train_norm, y_train, epochs=2, batch_size=16) 
 
    
 X_pre_norm = scale(X_masked)
 probe = model.predict(X_pre_norm , batch_size = 16)
 # In[3]
 # todo 写create
-raster_file3 = "probe.tif"
-r = Raster(raster_file3)
+#raster_file3 = "probe.tif"
+#r = Raster(raster_file3)
+#for i in range(5):
+#    temp = np.ma.masked_array(probe[:,i], y_reshape.mask).reshape(r.rows, r.cols)
+#    temp = np.ma.masked_values(temp, -1)
+#    r.data[i] = temp
+##r.write("probe_test.tif")
+#r.draw()
+# In[3.1]
+
+
+bands_data = []
 for i in range(5):
-    temp = np.ma.masked_array(probe[:,i], y_reshape.mask).reshape(r.rows, r.cols)
-    temp = np.ma.masked_values(temp, -1)
-    r.data[i] = temp
-#r.write("probe_test.tif")
-r.draw()
+    temp = np.ma.masked_array(probe[:,i], y_reshape.mask).reshape(raster.rows, raster.cols)
+    temp = np.ma.masked_values(temp, raster.NoDataValue)
+    bands_data.append(temp)
     
+Raster.Create("probe_test_1.tif", raster.cols,raster.rows, len(bands_data), bands_data,
+              raster.NoDataValue,trans=y_raster.geotrans,proj=y_raster.proj)
 
-
+#r.draw()
     
 
 
