@@ -82,7 +82,7 @@ class Raster():
         # todo 改好
         if self.bandsCount > 1:
             data = np.array(self.data[:3]).reshape()
-            plt.imshow(, cmap = "rgb")
+            # plt.imshow(, cmap = "rgb")
         else:
             plt.imshow(self.data, cmap = "gray")
         plt.show()
