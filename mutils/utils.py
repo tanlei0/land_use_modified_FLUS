@@ -17,7 +17,7 @@ def write_probs(probs, y_raster, save_path='./probs.tif'):
     :param save_path: 概率文件保存位置
     :return:
     """
-    y_raster.bandsCount = int(y_raster.vmax - y_raster.vmin + 1)
+    y_raster.bandsCount = len(np.unique(y_raster.data)) - 1
     y_raster.data = np.zeros(shape=(y_raster.bandsCount, y_raster.rows, y_raster.cols))
     y_reshape = y_raster.maskedData.reshape(-1)
     probs[np.isnan(probs)] = -1

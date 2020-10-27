@@ -117,19 +117,19 @@ probe = model.predict(X_pre_norm, batch_size=16)
 
 # write prob data into raster file
 # assign -1 to NoDataValue
-write_probs(probe, y_raster, "prob.tif")
-
-# plot prob map
-# land_type means:
-# band-1 -> r
-# band-2 -> g
-# band-3 -> b
-show_prob_map(
-    raster_path="prob.tif",
-    land_type=[1, 2, 3],
-    title="适应性概率",
-    show=True,
-    save_path="show_prob_map.png")
+#write_probs(probe, y_raster, "prob.tif")
+#
+## plot prob map
+## land_type means:
+## band-1 -> r
+## band-2 -> g
+## band-3 -> b
+#show_prob_map(
+#    raster_path="prob.tif",
+#    land_type=[1, 2, 3],
+#    title="适应性概率",
+#    show=True,
+#    save_path="show_prob_map.png")
 
 # In[3]
 # todo 写create
@@ -152,5 +152,5 @@ show_prob_map(
 #
 # Raster.Create("probe_test_1.tif", raster.cols,raster.rows, len(bands_data), bands_data,
 #               raster.NoDataValue, trans=y_raster.geotrans,proj=y_raster.proj)
-
+#
 # r.draw()
