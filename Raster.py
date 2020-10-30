@@ -48,8 +48,7 @@ class Raster():
                 self.data.append(self.band[i].ReadAsArray())
                 self.vmin.append(self.data[i].min())
                 self.vmax.append(self.data[i].max())
-    
-        
+
     def write(self, path):
         if self.bandsCount == 1:
             if 'int8' in self.data.dtype.name:
